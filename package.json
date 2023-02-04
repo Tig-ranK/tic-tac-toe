@@ -1,4 +1,8 @@
 {
+  "prettier": {
+    "singleQuote": true,
+    "tabWidth": 3
+  },
   "name": "tic-tac-toe",
   "private": true,
   "version": "0.0.0",
@@ -11,7 +15,8 @@
   "dependencies": {
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "styled-components": "^5.3.6"
+    "styled-components": "^5.3.6",
+    "vite-plugin-svgr": "^2.4.0"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
