@@ -85,7 +85,3 @@ const Toggle = styled.div`
    background: var(--dark-navy);
    border-radius: 1rem;
 `;
-
-// const NewGameCpu = styled(Button);
-
-// const NewGamePlayer = styled(Button);
