@@ -1,10 +1,12 @@
 import styled from 'styled-components';
+import { GamePage } from '../pages/GamePage/GamePage';
 import { HomePage } from '../pages/HomePage';
 
 export const App = () => {
    return (
       <Wrapper>
-         <HomePage />
+         {/* <HomePage /> */}
+         <GamePage />
       </Wrapper>
    );
 };
@@ -17,4 +19,3 @@ const Wrapper = styled.div`
    place-items: center;
    color: var(--silver);
 `;
-

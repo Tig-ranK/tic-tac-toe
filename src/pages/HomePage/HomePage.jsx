@@ -33,7 +33,7 @@ export const HomePage = () => {
             </Toggle>
             <Subtitle>REMEMBER : X GOES FIRST</Subtitle>
          </PickPlayer>
-         <Button type='primary' color='yellow'>NEW GAME (VS CPU)</Button>
+         <Button type='primary' color='yellow'>NEW GAME (VS BOT)</Button>
          <Button type='primary' color='blue'>NEW GAME (VS PLAYER)</Button>
       </Wrapper>
    );
