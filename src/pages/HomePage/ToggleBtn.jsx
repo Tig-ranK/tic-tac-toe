@@ -1,14 +1,8 @@
 import styled, { css } from 'styled-components';
 
-export const ToggleBtn = ({ active, icon, onClick }) => {
-   return (
-      <Wrapper onClick={onClick} active={active}>
-         {icon}
-      </Wrapper>
-   );
-};
-
-const Wrapper = styled.button`
+export const ToggleBtn = styled.button.attrs(({ icon }) => ({
+   children: icon,
+}))`
    background-color: var(--dark-navy);
    border-radius: 10px;
    border: none;
