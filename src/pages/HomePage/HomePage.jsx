@@ -18,7 +18,7 @@ export const HomePage = () => {
       <Wrapper>
          <Logo />
          <PickPlayer>
-            <Title>PICK PLAYER 1’S MARK</Title>
+            <Title>PICK PLAYER 1'S MARK</Title>
             <Toggle>
                <ToggleBtn
                   icon={<IconX />}
