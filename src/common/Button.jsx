@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const Button = styled.button`
    --easing: cubic-bezier(0.18, 0.89, 0.32, 1.28);
-
    width: 100%;
    height: 5rem;
 
@@ -22,6 +21,12 @@ export const Button = styled.button`
 
    transition: all 0.5s var(--easing);
 
+   background-color: var(--bg-color);
+
+   &:hover {
+      background-color: var(--hover-color);
+   }
+
    ${(props) =>
       props.type === 'primary' &&
       css`
@@ -30,8 +35,14 @@ export const Button = styled.button`
          font-size: 20px;
          line-height: 25px;
          letter-spacing: 1.25px;
-      `}
 
+         box-shadow: 0px 8px 0px var(--shadow-color);
+
+         &:active {
+            transform: translateY(8px);
+            box-shadow: 0px 0px 0px var(--shadow-color);
+         }
+      `}
    ${(props) =>
       props.type === 'secondary' &&
       css`
@@ -40,40 +51,33 @@ export const Button = styled.button`
          font-size: 16px;
          line-height: 20px;
          letter-spacing: 1px;
+
+         box-shadow: 0px 4px 0px var(--shadow-color);
+
+         &:active {
+            transform: translateY(4px);
+            box-shadow: 0px 0px 0px var(--shadow-color);
+         }
       `}
    ${(props) =>
       props.color === 'yellow' &&
       css`
-         background-color: var(--light-yellow);
-         box-shadow: 0px 8px 0px var(--shadow-yellow);
-         &:hover {
-            background-color: var(--light-yellow-hover);
-         }
-         &:active {
-            transform: translateY(8px);
-            box-shadow: 0px 0px 0px var(--shadow-yellow);
-         }
+         --bg-color: var(--light-yellow);
+         --shadow-color: var(--shadow-yellow);
+         --hover-color: var(--light-yellow-hover);
       `}
    ${(props) =>
       props.color === 'blue' &&
       css`
-         background-color: var(--light-blue);
-         box-shadow: 0px 8px 0px var(--shadow-blue);
-         &:hover {
-            background-color: var(--light-blue-hover);
-         }
-         &:active {
-            transform: translateY(8px);
-            box-shadow: 0px 0px 0px var(--shadow-blue);
-         }
+         --bg-color: var(--light-blue);
+         --shadow-color: var(--shadow-blue);
+         --hover-color: var(--light-blue-hover);
       `}
    ${(props) =>
       props.color === 'silver' &&
       css`
-         background-color: var(--silver);
-         box-shadow: 0px 8px 0px var(--shadow-silver);
-         &:hover {
-            background-color: var(--silver-hover);
-         }
+         --bg-color: var(--silver);
+         --shadow-color: var(--shadow-silver);
+         --hover-color: var(--silver-hover);
       `}
 `;
