@@ -33,6 +33,8 @@ export const HomePage = () => {
             </Toggle>
             <Subtitle>REMEMBER : X GOES FIRST</Subtitle>
          </PickPlayer>
+         <Button type='primary' color='yellow'>NEW GAME (VS CPU)</Button>
+         <Button type='primary' color='blue'>NEW GAME (VS PLAYER)</Button>
       </Wrapper>
    );
 };
@@ -44,6 +46,7 @@ const Wrapper = styled.main`
    gap: 2rem;
 
    max-width: 46rem;
+   text-align: center;
 `;
 
 const PickPlayer = styled.div`
@@ -52,6 +55,10 @@ const PickPlayer = styled.div`
    border-radius: 1.5rem;
 
    padding: 2.4rem;
+
+   display: flex;
+   flex-direction: column;
+   gap: 1.8rem;
 `;
 
 const Title = styled.h3`
@@ -61,15 +68,16 @@ const Title = styled.h3`
    letter-spacing: 1px;
    text-transform: uppercase;
    color: var(--silver);
-`;
+   `;
 
 const Subtitle = styled.p`
    font-weight: 500;
    font-size: 1.4rem;
    line-height: 1.8rem;
    letter-spacing: 0.875px;
+   text-transform: uppercase;
    color: var(--silver);
-`;
+   `;
 
 const Toggle = styled.div`
    padding: 0.8rem;
