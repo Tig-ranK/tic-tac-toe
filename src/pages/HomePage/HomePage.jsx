@@ -9,10 +9,10 @@ import { ReactComponent as IconX } from '../../assets/icon-x-small.svg';
 import { ReactComponent as IconO } from '../../assets/icon-o-small.svg';
 
 export const HomePage = () => {
-   const [activeMark, setActiveMark] = useState('X');
+   const [activeMark, setActiveMark] = useState('x');
 
-   const pickX = () => setActiveMark('X');
-   const pickO = () => setActiveMark('O');
+   const pickX = () => setActiveMark('x');
+   const pickO = () => setActiveMark('o');
 
    return (
       <Wrapper>
@@ -23,12 +23,12 @@ export const HomePage = () => {
                <ToggleBtn
                   icon={<IconX />}
                   onClick={pickX}
-                  active={activeMark === 'X'}
+                  active={activeMark === 'x'}
                />
                <ToggleBtn
                   icon={<IconO />}
                   onClick={pickO}
-                  active={activeMark === 'O'}
+                  active={activeMark === 'o'}
                />
             </Toggle>
             <Subtitle>REMEMBER : X GOES FIRST</Subtitle>
