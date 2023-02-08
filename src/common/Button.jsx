@@ -1,63 +1,84 @@
-import styled, { css } from 'styled-components';
+import styled, { css, keyframes } from 'styled-components';
 
-export const Button = styled.button`
-   --easing: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+const pressIn = keyframes`
+   0% {
+      transform: translateY(0px);
+   } 
+   50% {
+      transform: translateY(var(--shadow-size));
+   }
+   100% {
+      transform: translateY(0px);
+   }   
+`;
+
+const ButtonInner = styled.button`
+   position: absolute;
+   height: 100%;
    width: 100%;
-   height: 5rem;
+   bottom: calc(var(--shadow-size));
+   left: 0;
 
-   color: var(--dark-navy);
-   outline-offset: 5px;
-
+   border-radius: inherit;
    border: none;
-   text-transform: uppercase;
-
-   display: grid;
-   place-items: center;
+   background-color: var(--bg-color);
+   color: var(--dark-navy);
 
    font-family: inherit;
+   font-size: inherit;
+   line-height: inherit;
+   letter-spacing: inherit;
    font-weight: 700;
+   text-transform: uppercase;
 
-   touch-action: manipulation;
-
-   transition: all 0.5s var(--easing);
-
-   background-color: var(--bg-color);
+   will-change: transform;
 
    &:hover {
       background-color: var(--hover-color);
    }
 
+   &:focus {
+      animation: 1s ${pressIn} var(--easing);
+   }
+`;
+
+export const Button = styled.div.attrs((props) => ({
+   children: <ButtonInner {...props}>{props.children}</ButtonInner>,
+}))`
+   --easing: cubic-bezier(0.18, 0.89, 0.32, 1.28);
+   width: 100%;
+   height: 5rem;
+
+   background-color: var(--shadow-color);
+   outline-offset: 5px;
+
+   position: relative;
+
+   touch-action: manipulation;
+
+   transform: translateY(var(--shadow-size)); // to align based on ButtonInner
+
    ${(props) =>
       props.type === 'primary' &&
       css`
+         --shadow-size: 8px;
+
          border-radius: 15px;
 
          font-size: 20px;
          line-height: 25px;
          letter-spacing: 1.25px;
-
-         box-shadow: 0px 8px 0px var(--shadow-color);
-
-         &:active {
-            transform: translateY(8px);
-            box-shadow: 0px 0px 0px var(--shadow-color);
-         }
       `}
    ${(props) =>
       props.type === 'secondary' &&
       css`
+         --shadow-size: 4px;
+
          border-radius: 10px;
 
          font-size: 16px;
          line-height: 20px;
          letter-spacing: 1px;
-
-         box-shadow: 0px 4px 0px var(--shadow-color);
-
-         &:active {
-            transform: translateY(4px);
-            box-shadow: 0px 0px 0px var(--shadow-color);
-         }
       `}
    ${(props) =>
       props.color === 'yellow' &&
