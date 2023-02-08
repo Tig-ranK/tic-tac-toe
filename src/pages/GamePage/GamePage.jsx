@@ -10,24 +10,23 @@ import { ReactComponent as SmallX } from '../../assets/icon-x-tiny.svg';
 import { ReactComponent as SmallO } from '../../assets/icon-o-tiny.svg';
 import { ReactComponent as BigX } from '../../assets/icon-x.svg';
 import { ReactComponent as BigO } from '../../assets/icon-o.svg';
+// Helpers
+import { checkForWin } from '../../helpers/checkForWin';
 
-const currentPlayer = {
-   mark: 'x',
-   win: 32,
-};
+// TODO add context for current player 
 
 export const GamePage = () => {
    const [currentPlayer, setCurrentPlayer] = useState('x');
    const [tiles, setTiles] = useState([
-      { id: 0, mark: '' },
-      { id: 1, mark: '' },
-      { id: 2, mark: 'x' },
-      { id: 3, mark: '' },
-      { id: 4, mark: '' },
-      { id: 5, mark: 'x' },
-      { id: 6, mark: '' },
-      { id: 7, mark: '' },
-      { id: 8, mark: '' },
+      { id: 0, mark: null },
+      { id: 1, mark: null },
+      { id: 2, mark: null },
+      { id: 3, mark: null },
+      { id: 4, mark: null },
+      { id: 5, mark: null },
+      { id: 6, mark: null },
+      { id: 7, mark: null },
+      { id: 8, mark: null },
    ]);
 
    const mapTile = (mark) => {
@@ -46,8 +45,16 @@ export const GamePage = () => {
 
       setTiles((prev) => {
          const mark = currentPlayer;
+
+         const newTiles = prev.map((t) =>
+            t.id === id ? { ...t, mark: mark } : t
+         );
+
+         if (checkForWin(newTiles)) alert(`Congrats ${currentPlayer.toUpperCase()}. GG! WP!`);
+
          setCurrentPlayer(mark === 'x' ? 'o' : 'x');
-         return prev.map((t) => (t.id === id ? { ...t, mark: mark } : t));
+
+         return newTiles;
       });
    };
 
