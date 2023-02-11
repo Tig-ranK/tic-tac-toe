@@ -7,8 +7,12 @@ import { ToggleBtn } from './ToggleBtn';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { ReactComponent as IconX } from '../../assets/icon-x-small.svg';
 import { ReactComponent as IconO } from '../../assets/icon-o-small.svg';
+import { useNavigate } from 'react-router-dom';
 
 export const HomePage = () => {
+   const navigate = useNavigate();
+   // TODO fix bug with navigating twice?
+
    const [activeMark, setActiveMark] = useState('x');
 
    const pickX = () => setActiveMark('x');
@@ -33,8 +37,12 @@ export const HomePage = () => {
             </Toggle>
             <Subtitle>REMEMBER : X GOES FIRST</Subtitle>
          </PickPlayer>
-         <Button type='primary' color='yellow'>NEW GAME (VS BOT)</Button>
-         <Button type='primary' color='blue'>NEW GAME (VS PLAYER)</Button>
+         <Button type="primary" color="yellow">
+            NEW GAME (VS BOT)
+         </Button>
+         <Button type="primary" color="blue" onClick={() => navigate('/game')}>
+            NEW GAME (VS PLAYER)
+         </Button>
       </Wrapper>
    );
 };
@@ -68,7 +76,7 @@ const Title = styled.h3`
    letter-spacing: 1px;
    text-transform: uppercase;
    color: var(--silver);
-   `;
+`;
 
 const Subtitle = styled.p`
    font-weight: 500;
@@ -77,7 +85,7 @@ const Subtitle = styled.p`
    letter-spacing: 0.875px;
    text-transform: uppercase;
    color: var(--silver);
-   `;
+`;
 
 const Toggle = styled.div`
    padding: 0.8rem;
