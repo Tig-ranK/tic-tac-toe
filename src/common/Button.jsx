@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import styled, { css, keyframes } from 'styled-components';
 
 const pressIn = keyframes`
@@ -12,7 +13,10 @@ const pressIn = keyframes`
    }   
 `;
 
-const ButtonInner = styled.button`
+const ButtonInner = styled(Link)`
+   display: grid;
+   place-items: center;
+
    position: absolute;
    height: 100%;
    width: 100%;
@@ -30,6 +34,7 @@ const ButtonInner = styled.button`
    letter-spacing: inherit;
    font-weight: 700;
    text-transform: uppercase;
+   text-decoration: none;
 
    will-change: transform;
 
