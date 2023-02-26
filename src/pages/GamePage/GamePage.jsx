@@ -12,7 +12,7 @@ import { ReactComponent as SmallO } from '../../assets/icon-o-tiny.svg';
 import { checkForWin } from '../../helpers/checkForWin';
 import { mapTile } from '../../helpers/mapTile';
 // Context
-import { PlayerContext, PlayerDispatchContext } from '../../Context';
+import { PlayerContext, PlayerDispatchContext } from '../../context/PlayerContext';
 
 const initialTiles = [
    { id: 0, mark: null },
@@ -36,11 +36,9 @@ export const GamePage = () => {
    const handlePlaceMark = (id) => {
       if (tiles[id].mark) return;
 
-      const mark = current;
-
       setTiles((prev) => {
          const newTiles = prev.map((t) =>
-            t.id === id ? { ...t, mark: mark } : t
+            t.id === id ? { ...t, mark: current } : t
          );
 
          if (checkForWin(newTiles)) {
@@ -51,7 +49,7 @@ export const GamePage = () => {
          return newTiles;
       });
 
-      dispatch({ type: `current:${mark === 'x' ? 'o' : 'x'}` });
+      dispatch({ type: `current:${current === 'x' ? 'o' : 'x'}` });
    };
 
    const handleRestart = () => {

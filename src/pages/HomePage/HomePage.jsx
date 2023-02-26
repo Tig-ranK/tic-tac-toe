@@ -7,7 +7,8 @@ import { ToggleBtn } from './ToggleBtn';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { ReactComponent as IconX } from '../../assets/icon-x-small.svg';
 import { ReactComponent as IconO } from '../../assets/icon-o-small.svg';
-import { PlayerContext, PlayerDispatchContext } from '../../Context';
+// Context
+import { PlayerContext, PlayerDispatchContext } from '../../context/PlayerContext';
 
 export const HomePage = () => {
    const { first } = useContext(PlayerContext);
