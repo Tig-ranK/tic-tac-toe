@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 // Components
 import { Button } from '../../common/Button';
 import { Tile } from './Tile';
@@ -8,55 +8,72 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { ReactComponent as IconRestart } from '../../assets/icon-restart.svg';
 import { ReactComponent as SmallX } from '../../assets/icon-x-tiny.svg';
 import { ReactComponent as SmallO } from '../../assets/icon-o-tiny.svg';
-import { ReactComponent as BigX } from '../../assets/icon-x.svg';
-import { ReactComponent as BigO } from '../../assets/icon-o.svg';
 // Helpers
 import { checkForWin } from '../../helpers/checkForWin';
+import { mapTile } from '../../helpers/mapTile';
+// Context
+import { PlayerContext, PlayerDispatchContext } from '../../Context';
 
-// TODO add context for current player 
+const initialTiles = [
+   { id: 0, mark: null },
+   { id: 1, mark: null },
+   { id: 2, mark: null },
+   { id: 3, mark: null },
+   { id: 4, mark: null },
+   { id: 5, mark: null },
+   { id: 6, mark: null },
+   { id: 7, mark: null },
+   { id: 8, mark: null },
+];
 
 export const GamePage = () => {
-   const [currentPlayer, setCurrentPlayer] = useState('x');
-   const [tiles, setTiles] = useState([
-      { id: 0, mark: null },
-      { id: 1, mark: null },
-      { id: 2, mark: null },
-      { id: 3, mark: null },
-      { id: 4, mark: null },
-      { id: 5, mark: null },
-      { id: 6, mark: null },
-      { id: 7, mark: null },
-      { id: 8, mark: null },
-   ]);
+   const { current, first } = useContext(PlayerContext);
+   const dispatch = useContext(PlayerDispatchContext);
 
-   const mapTile = (mark) => {
-      switch (mark) {
-         case 'x':
-            return <BigX />;
-         case 'o':
-            return <BigO />;
-         default:
-            return null;
-      }
-   };
+   const [tiles, setTiles] = useState(initialTiles);
+   const [isWin, setWin] = useState(false);
 
    const handlePlaceMark = (id) => {
       if (tiles[id].mark) return;
 
-      setTiles((prev) => {
-         const mark = currentPlayer;
+      const mark = current;
 
+      setTiles((prev) => {
          const newTiles = prev.map((t) =>
             t.id === id ? { ...t, mark: mark } : t
          );
 
-         if (checkForWin(newTiles)) alert(`Congrats ${currentPlayer.toUpperCase()}. GG! WP!`);
-
-         setCurrentPlayer(mark === 'x' ? 'o' : 'x');
+         if (checkForWin(newTiles)) {
+            setWin(true);
+            alert(`Congrats ${current.toUpperCase()}. GG! WP!`);
+         }
 
          return newTiles;
       });
+
+      dispatch({ type: `current:${mark === 'x' ? 'o' : 'x'}` });
    };
+
+   const handleRestart = () => {
+      dispatch({ type: `current:${first}` });
+      setTiles(initialTiles);
+      setWin(false);
+   };
+
+   const Tiles = () => (
+      <>
+         {tiles.map((t) => (
+            <Tile
+               disabled={isWin}
+               key={t.id}
+               mark={mapTile(t.mark)}
+               onClick={() => {
+                  handlePlaceMark(t.id);
+               }}
+            />
+         ))}
+      </>
+   );
 
    return (
       <Wrapper>
@@ -64,19 +81,13 @@ export const GamePage = () => {
             <Logo />
          </LogoWrapper>
          <Turn>
-            {currentPlayer === 'x' ? <SmallX /> : <SmallO />}
+            {current === 'x' ? <SmallX /> : <SmallO />}
             <span>TURN</span>
          </Turn>
-         <ButtonRestart type="secondary" color="silver">
+         <ButtonRestart type="secondary" color="silver" onClick={handleRestart}>
             <IconRestart />
          </ButtonRestart>
-         {tiles.map((t) => (
-            <Tile
-               key={t.id}
-               mark={mapTile(t.mark)}
-               onClick={() => handlePlaceMark(t.id)}
-            />
-         ))}
+         <Tiles />
       </Wrapper>
    );
 };

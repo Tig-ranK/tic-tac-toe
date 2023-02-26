@@ -1,5 +1,5 @@
+import { useContext } from 'react';
 import styled from 'styled-components';
-import { useState } from 'react';
 // Components
 import { Button } from '../../common/Button';
 import { ToggleBtn } from './ToggleBtn';
@@ -7,16 +7,14 @@ import { ToggleBtn } from './ToggleBtn';
 import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { ReactComponent as IconX } from '../../assets/icon-x-small.svg';
 import { ReactComponent as IconO } from '../../assets/icon-o-small.svg';
-import { useNavigate } from 'react-router-dom';
+import { PlayerContext, PlayerDispatchContext } from '../../Context';
 
 export const HomePage = () => {
-   const navigate = useNavigate();
-   // TODO fix bug with navigating twice?
+   const { first } = useContext(PlayerContext);
+   const dispatch = useContext(PlayerDispatchContext);
 
-   const [activeMark, setActiveMark] = useState('x');
-
-   const pickX = () => setActiveMark('x');
-   const pickO = () => setActiveMark('o');
+   const pickX = () => dispatch({ type: 'first:x' });
+   const pickO = () => dispatch({ type: 'first:o' });
 
    return (
       <Wrapper>
@@ -27,20 +25,20 @@ export const HomePage = () => {
                <ToggleBtn
                   icon={<IconX />}
                   onClick={pickX}
-                  active={activeMark === 'x'}
+                  active={first === 'x'}
                />
                <ToggleBtn
                   icon={<IconO />}
                   onClick={pickO}
-                  active={activeMark === 'o'}
+                  active={first === 'o'}
                />
             </Toggle>
             <Subtitle>REMEMBER : X GOES FIRST</Subtitle>
          </PickPlayer>
-         <Button type="primary" color="yellow">
+         <Button to="/vs-bot" type="primary" color="yellow">
             NEW GAME (VS BOT)
          </Button>
-         <Button type="primary" color="blue" onClick={() => navigate('/game')}>
+         <Button to="/vs-player" type="primary" color="blue">
             NEW GAME (VS PLAYER)
          </Button>
       </Wrapper>
@@ -85,6 +83,7 @@ const Subtitle = styled.p`
    letter-spacing: 0.875px;
    text-transform: uppercase;
    color: var(--silver);
+   opacity: 0.5;
 `;
 
 const Toggle = styled.div`
