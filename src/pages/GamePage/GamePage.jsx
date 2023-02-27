@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { useContext, useState } from 'react';
 // Components
+import { Score } from '../../components/Score';
 import { Button } from '../../common/Button';
 import { Tile } from './Tile';
 // SVG
@@ -12,28 +13,24 @@ import { ReactComponent as SmallO } from '../../assets/icon-o-tiny.svg';
 import { checkForWin } from '../../helpers/checkForWin';
 import { mapTile } from '../../helpers/mapTile';
 // Context
-import { PlayerContext, PlayerDispatchContext } from '../../context/PlayerContext';
+import {
+   PlayerContext,
+   PlayerDispatchContext,
+} from '../../context/PlayerContext';
 
-const initialTiles = [
-   { id: 0, mark: null },
-   { id: 1, mark: null },
-   { id: 2, mark: null },
-   { id: 3, mark: null },
-   { id: 4, mark: null },
-   { id: 5, mark: null },
-   { id: 6, mark: null },
-   { id: 7, mark: null },
-   { id: 8, mark: null },
-];
+const initialTiles = [...Array(9)].map((t, id) => ({ id, mark: null }));
 
 export const GamePage = () => {
-   const { current, first } = useContext(PlayerContext);
+   // TODO add new game on pressing 'r/R' key
+   const { current } = useContext(PlayerContext);
    const dispatch = useContext(PlayerDispatchContext);
 
    const [tiles, setTiles] = useState(initialTiles);
    const [isWin, setWin] = useState(false);
+   const [scores, setScores] = useState({ x: 0, tie: 0, o: 0 });
 
    const handlePlaceMark = (id) => {
+      // TODO refactor me into custom hook
       if (tiles[id].mark) return;
 
       setTiles((prev) => {
@@ -42,8 +39,13 @@ export const GamePage = () => {
          );
 
          if (checkForWin(newTiles)) {
+            setScores((s) => ({ ...s, [current]: s[current] + 1 }));
             setWin(true);
             alert(`Congrats ${current.toUpperCase()}. GG! WP!`);
+         } else if (newTiles.every((t) => t.mark)) {
+            setScores((s) => ({ ...s, tie: s.tie + 1 }));
+            setWin(true);
+            alert(`It's a tie, try again.`);
          }
 
          return newTiles;
@@ -86,13 +88,17 @@ export const GamePage = () => {
             <IconRestart />
          </ButtonRestart>
          <Tiles />
+         {/* FIXME hardcoded names */}
+         <Score color="blue" name="X (P1)" count={scores.x} />
+         <Score color="silver" name="TIES" count={scores.tie} />
+         <Score color="yellow" name="O (P2)" count={scores.o} />
       </Wrapper>
    );
 };
 
 const Wrapper = styled.div`
    display: grid;
-   grid-template: min-content repeat(3, 1fr) / repeat(3, 1fr);
+   grid-template: min-content repeat(3, 1fr) 0.5fr / repeat(3, 1fr);
    gap: 2rem;
 `;
 
