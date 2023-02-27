@@ -6,8 +6,8 @@ export const PlayerDispatchContext = createContext(null);
 
 export const PlayerProvider = ({ children }) => {
    const [player, dispatch] = useReducer(playerReducer, {
+      p1: 'x',
       first: 'x',
-      current: 'x',
    });
 
    return (
@@ -21,14 +21,12 @@ export const PlayerProvider = ({ children }) => {
 
 const playerReducer = (state, action) => {
    switch (action.type) {
-      case 'first:x':
-         return { ...state, first: 'x' };
-      case 'first:o':
-         return { ...state, first: 'o' };
-      case 'current:x':
-         return { ...state, current: 'x' };
-      case 'current:o':
-         return { ...state, current: 'o' };
+      case 'p1:x':
+         return { ...state, p1: 'x' };
+      case 'p1:o':
+         return { ...state, p1: 'o' };
+      case 'first:toggle':
+         return { ...state, next: state.first === 'x' ? 'o' : 'x' };
       default:
          return state;
    }

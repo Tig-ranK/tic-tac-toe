@@ -8,14 +8,17 @@ import { ReactComponent as Logo } from '../../assets/logo.svg';
 import { ReactComponent as IconX } from '../../assets/icon-x-small.svg';
 import { ReactComponent as IconO } from '../../assets/icon-o-small.svg';
 // Context
-import { PlayerContext, PlayerDispatchContext } from '../../context/PlayerContext';
+import {
+   PlayerContext,
+   PlayerDispatchContext,
+} from '../../context/PlayerContext';
 
 export const HomePage = () => {
-   const { first } = useContext(PlayerContext);
+   const { p1 } = useContext(PlayerContext);
    const dispatch = useContext(PlayerDispatchContext);
 
-   const pickX = () => dispatch({ type: 'first:x' });
-   const pickO = () => dispatch({ type: 'first:o' });
+   const pickX = () => dispatch({ type: 'p1:x' });
+   const pickO = () => dispatch({ type: 'p1:o' });
 
    return (
       <Wrapper>
@@ -26,22 +29,24 @@ export const HomePage = () => {
                <ToggleBtn
                   icon={<IconX />}
                   onClick={pickX}
-                  active={first === 'x'}
+                  active={p1 === 'x'}
                />
                <ToggleBtn
                   icon={<IconO />}
                   onClick={pickO}
-                  active={first === 'o'}
+                  active={p1 === 'o'}
                />
             </Toggle>
             <Subtitle>REMEMBER : X GOES FIRST</Subtitle>
          </PickPlayer>
-         <Button to="/vs-bot" type="primary" color="yellow">
-            NEW GAME (VS BOT)
-         </Button>
          <Button to="/vs-player" type="primary" color="blue">
             NEW GAME (VS PLAYER)
          </Button>
+         {/* TODO add VS BOT Mode to the game 
+         <Button to="/vs-bot" type="primary" color="yellow" disabled={true}>
+            NEW GAME (VS BOT)
+         </Button>
+         */}
       </Wrapper>
    );
 };

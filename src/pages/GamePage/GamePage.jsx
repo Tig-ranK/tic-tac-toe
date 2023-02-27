@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 // Components
 import { Score } from '../../components/Score';
 import { Button } from '../../common/Button';
@@ -13,49 +13,53 @@ import { ReactComponent as SmallO } from '../../assets/icon-o-tiny.svg';
 import { checkForWin } from '../../helpers/checkForWin';
 import { mapTile } from '../../helpers/mapTile';
 // Context
-import {
-   PlayerContext,
-   PlayerDispatchContext,
-} from '../../context/PlayerContext';
+import { PlayerContext } from '../../context/PlayerContext';
 
 const initialTiles = [...Array(9)].map((t, id) => ({ id, mark: null }));
 
 export const GamePage = () => {
    // TODO add new game on pressing 'r/R' key
-   const { current } = useContext(PlayerContext);
-   const dispatch = useContext(PlayerDispatchContext);
+   const { first } = useContext(PlayerContext);
 
    const [tiles, setTiles] = useState(initialTiles);
    const [isWin, setWin] = useState(false);
    const [scores, setScores] = useState({ x: 0, tie: 0, o: 0 });
+   const [current, setCurrent] = useState(first);
+
+   useEffect(() => {
+      const cb = (e) => (e.key === 'r' || e.key === 'R') && handleRestart();
+
+      window.addEventListener('keydown', cb);
+
+      return () => {
+         window.removeEventListener('onkeydown', cb);
+      };
+   }, []);
 
    const handlePlaceMark = (id) => {
       // TODO refactor me into custom hook
       if (tiles[id].mark) return;
 
-      setTiles((prev) => {
-         const newTiles = prev.map((t) =>
-            t.id === id ? { ...t, mark: current } : t
-         );
+      const newTiles = tiles.map((t) =>
+         t.id === id ? { ...t, mark: current } : t
+      );
 
-         if (checkForWin(newTiles)) {
-            setScores((s) => ({ ...s, [current]: s[current] + 1 }));
-            setWin(true);
-            alert(`Congrats ${current.toUpperCase()}. GG! WP!`);
-         } else if (newTiles.every((t) => t.mark)) {
-            setScores((s) => ({ ...s, tie: s.tie + 1 }));
-            setWin(true);
-            alert(`It's a tie, try again.`);
-         }
+      if (checkForWin(newTiles)) {
+         setScores((s) => ({ ...s, [current]: s[current] + 1 }));
+         setWin(true);
+         alert(`Congrats ${current.toUpperCase()}. GG! WP!`);
+      } else if (newTiles.every((t) => t.mark)) {
+         setScores((s) => ({ ...s, tie: s.tie + 1 }));
+         setWin(true);
+         alert(`It's a tie, try again.`);
+      }
 
-         return newTiles;
-      });
-
-      dispatch({ type: `current:${current === 'x' ? 'o' : 'x'}` });
+      setTiles(newTiles);
+      setCurrent((cur) => (cur === 'x' ? 'o' : 'x'));
    };
 
    const handleRestart = () => {
-      dispatch({ type: `current:${first}` });
+      setCurrent(first);
       setTiles(initialTiles);
       setWin(false);
    };
